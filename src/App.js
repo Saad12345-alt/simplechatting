@@ -14,6 +14,19 @@ function App() {
   const joinRoom = () => {
     if (room !== "") {
       socket.emit("join_room", room);
+      const running = async () =>
+      {
+        try{
+      const res = await fetch(`http://localhost:3001/messages/${room}`)
+      const data = await res.json();
+      setChat(data);
+      }
+      catch(error) 
+      {
+        console.log("error has occured connecting to backend")
+      }
+    }
+      running();
       setShowChat(true);
     }
   };

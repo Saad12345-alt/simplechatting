@@ -1,3 +1,6 @@
+/* Make sizing predictable */
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -9,39 +12,41 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 12px;
 }
 
 .join-container,
 .chat-container {
   background: #fff;
-  padding: 20px;
+  padding: 16px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 400px;
+  width: 100%;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
 }
 
 .join-container input,
-.input-container input {
+.input-container input,
+.input-container button {
   padding: 10px;
-  margin: 8px 0;
+  margin: 6px 0;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
 }
 
+
 .join-container button,
 .input-container button {
-  padding: 10px;
-  margin-top: 10px;
   background: #4f46e5;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
   cursor: pointer;
   transition: background 0.3s;
+  height: 35px;
+  font-size: 14px;
 }
 
 .join-container button:hover,
@@ -50,7 +55,7 @@ body {
 }
 
 .chat-container {
-  height: 500px;
+  height: 520px;
   display: flex;
   flex-direction: column;
 }
@@ -59,22 +64,51 @@ body {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 10px;
-  padding-right: 5px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .message {
   background: #f1f1f1;
   padding: 8px 12px;
   border-radius: 8px;
-  margin-bottom: 6px;
-  word-wrap: break-word;
+  margin-bottom: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
+
+.message b { display: block; margin-bottom: 6px; }
+
+.caption { font-size: 13px; color: #333; margin-top: 6px; }
 
 .input-container {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  align-items: center;
 }
 
-.input-container input {
-  flex: 1;
+.input-container input[type="text"] {
+  flex: 1 1 auto;
+  min-width: 0; /* allow shrink inside flex */
+}
+
+.input-container input[type="file"] {
+  flex: 0 0 auto;
+  max-width: 160px;
+  font-size: 13px;
+}
+
+.input-container button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.selected-file { font-size: 12px; color: #666; margin-top: 6px; }
+
+@media (max-width: 420px) {
+  .chat-container { height: 70vh; }
+  .input-container input[type="file"] { max-width: 120px; }
 }
